@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ravi Kumar — IT Team Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --surface2: #18181f;
+      --border: rgba(255,255,255,0.07);
+      --accent: #00e5c3;
+      --accent2: #6c63ff;
+      --accent3: #ff6b6b;
+      --text: #e8e8f0;
+      --muted: #777790;
+      --white: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 18px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(20px);
+      background: rgba(10,10,15,0.85);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    .nav-cta {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 8px 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .nav-cta:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 48px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,195,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,195,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,229,195,0.08) 0%, transparent 70%);
+      top: -100px;
+      right: -100px;
+      pointer-events: none;
+    }
+    .hero-glow2 {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(108,99,255,0.06) 0%, transparent 70%);
+      bottom: 0;
+      left: 100px;
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 32px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .hero-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(52px, 8vw, 100px);
+      line-height: 1;
+      letter-spacing: -2px;
+      color: var(--white);
+      position: relative;
+      z-index: 1;
+      margin-bottom: 8px;
+    }
+    .hero-name .accent { color: var(--accent); }
+
+    .hero-title {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: clamp(20px, 3vw, 32px);
+      color: var(--muted);
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-summary {
+      max-width: 620px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.9;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 48px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+      padding: 14px 32px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary:hover { background: #00c9aa; transform: translateY(-1px); }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      padding: 14px 32px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      margin-top: 64px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {}
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 36px;
+      color: var(--white);
+      line-height: 1;
+    }
+    .stat-num span { color: var(--accent); }
+    .stat-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* ── SECTION COMMONS ── */
+    section {
+      padding: 100px 48px;
+    }
+
+    .section-tag {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-tag::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(32px, 5vw, 56px);
+      letter-spacing: -1.5px;
+      color: var(--white);
+      line-height: 1.05;
+      margin-bottom: 64px;
+    }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--surface); }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2px;
+    }
+
+    .skill-card {
+      background: var(--surface2);
+      padding: 28px;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+    .skill-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .skill-card:hover::before { opacity: 1; }
+
+    .skill-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 16px;
+      background: rgba(0,229,195,0.08);
+    }
+
+    .skill-category {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .skill-tag {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 11px;
+      padding: 4px 10px;
+      letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .skill-card:hover .skill-tag {
+      border-color: rgba(0,229,195,0.2);
+      color: var(--text);
+    }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--bg); }
+
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+
+    .job {
+      position: relative;
+      margin-bottom: 64px;
+    }
+    .job::before {
+      content: '';
+      position: absolute;
+      left: -38px;
+      top: 8px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      background: var(--bg);
+    }
+
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 6px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .job-company {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--white);
+    }
+
+    .job-period {
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      padding: 4px 12px;
+      border: 1px solid rgba(0,229,195,0.3);
+      white-space: nowrap;
+    }
+
+    .job-role {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: 16px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .job-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .job-bullets li {
+      display: flex;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .job-bullets li::before {
+      content: '→';
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── CERTIFICATIONS ── */
+    #certifications { background: var(--surface); }
+
+    .certs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .cert-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .cert-card:hover {
+      border-color: rgba(108,99,255,0.4);
+      transform: translateY(-2px);
+    }
+    .cert-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
+    .cert-card:hover::after { transform: scaleX(1); }
+
+    .cert-badge {
+      width: 40px;
+      height: 40px;
+      background: rgba(108,99,255,0.1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .cert-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--white);
+      line-height: 1.4;
+    }
+
+    .cert-in-progress {
+      font-size: 10px;
+      color: var(--accent3);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #contact::before {
+      content: '';
+      position: absolute;
+      bottom: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,229,195,0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .contact-info-items {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      margin-top: 16px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .contact-item:hover {
+      border-color: var(--accent);
+    }
+
+    .contact-item-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(0,229,195,0.08);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .contact-item-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+
+    .contact-item-value {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--white);
+    }
+
+    .contact-right {}
+    .contact-tagline {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: 28px;
+      color: var(--text);
+      line-height: 1.5;
+      margin-bottom: 32px;
+    }
+    .contact-tagline span { color: var(--accent); }
+
+    .contact-bio {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.9;
+      margin-bottom: 32px;
+    }
+
+    .personal-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .chip {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-text {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .footer-text span { color: var(--accent); }
+
+    .scroll-indicator {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 9998;
+      transition: width 0.1s;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-eyebrow { animation: fadeUp 0.6s 0.1s both; }
+    .hero-name { animation: fadeUp 0.6s 0.2s both; }
+    .hero-title { animation: fadeUp 0.6s 0.3s both; }
+    .hero-summary { animation: fadeUp 0.6s 0.4s both; }
+    .hero-actions { animation: fadeUp 0.6s 0.5s both; }
+    .hero-stats { animation: fadeUp 0.6s 0.6s both; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      section, #hero { padding: 80px 24px; }
+      .contact-layout { grid-template-columns: 1fr; gap: 48px; }
+      footer { padding: 24px; }
+    }
+
+    /* ── EDUCATION SECTION ── */
+    #education { background: var(--surface); }
+    .edu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .edu-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 28px;
+      transition: all 0.3s;
+    }
+    .edu-card:hover {
+      border-color: rgba(0,229,195,0.4);
+      transform: translateY(-2px);
+    }
+    .edu-degree {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .edu-school {
+      font-size: 12px;
+      color: var(--accent);
+      margin-bottom: 6px;
+      letter-spacing: 0.04em;
+    }
+    .edu-status {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SCROLL INDICATOR -->
+  <div class="scroll-indicator" id="scrollBar"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">RK<span>.</span></div>
+    <ul class="nav-links">
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#certifications">Certs</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="mailto:Ravikkharwar586@outlook.com" class="nav-cta">Hire Me</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-glow2"></div>
+
+    <div class="hero-eyebrow">Available for opportunities</div>
+    <h1 class="hero-name">Ravi<br/><span class="accent">Kumar</span></h1>
+    <p class="hero-title">IT Team Manager · Infrastructure & Cloud Operations</p>
+    <p class="hero-summary">
+      Passionate IT professional with 6+ years of experience in IT Infrastructure, Cloud Operations, and Team Leadership. Leading cross-functional teams across India and Dubai, managing critical firewall and server infrastructure — with zero business disruption as the benchmark.
+    </p>
+    <div class="hero-actions">
+      <a href="mailto:Ravikkharwar586@outlook.com" class="btn-primary">↗ Get in Touch</a>
+      <a href="https://linkedin.com/in/ravi-kumar-4263133b2" target="_blank" class="btn-secondary">LinkedIn Profile</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">6<span>+</span></div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">10<span>+</span></div>
+        <div class="stat-label">Certifications</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">4<span>+</span></div>
+        <div class="stat-label">Companies</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">2</div>
+        <div class="stat-label">Countries Managed</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-tag">What I know</div>
+    <h2 class="section-title">Core<br/>Competencies</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon">☁️</div>
+        <div class="skill-category">Cloud Platforms</div>
+        <div class="skill-tags">
+          <span class="skill-tag">AWS (Practitioner)</span>
+          <span class="skill-tag">Azure AZ-900</span>
+          <span class="skill-tag">Cloud Operations</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🔒</div>
+        <div class="skill-category">Firewalls & Security</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Sophos XGS/XG</span>
+          <span class="skill-tag">FortiGate</span>
+          <span class="skill-tag">PFSense</span>
+          <span class="skill-tag">Seqrite</span>
+          <span class="skill-tag">Kaspersky EP</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🖥️</div>
+        <div class="skill-category">Windows Server</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Server 2012 R2–2025</span>
+          <span class="skill-tag">Active Directory</span>
+          <span class="skill-tag">Group Policy</span>
+          <span class="skill-tag">DHCP / DNS</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🐧</div>
+        <div class="skill-category">Linux</div>
+        <div class="skill-tags">
+          <span class="skill-tag">CentOS</span>
+          <span class="skill-tag">Ubuntu</span>
+          <span class="skill-tag">Server Admin</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">📧</div>
+        <div class="skill-category">Microsoft 365</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Exchange Online</span>
+          <span class="skill-tag">Teams</span>
+          <span class="skill-tag">SharePoint</span>
+          <span class="skill-tag">Admin</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">📬</div>
+        <div class="skill-category">Mail Servers</div>
+        <div class="skill-tags">
+          <span class="skill-tag">ZOHO Mail</span>
+          <span class="skill-tag">Carbonio</span>
+          <span class="skill-tag">Zimbra</span>
+          <span class="skill-tag">ICE Warp</span>
+          <span class="skill-tag">cPanel</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🌐</div>
+        <div class="skill-category">Networking</div>
+        <div class="skill-tags">
+          <span class="skill-tag">DNS / DHCP</span>
+          <span class="skill-tag">VoIP / SIP</span>
+          <span class="skill-tag">IIS</span>
+          <span class="skill-tag">LAN/WAN</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🗄️</div>
+        <div class="skill-category">Virtualisation</div>
+        <div class="skill-tags">
+          <span class="skill-tag">VMware</span>
+          <span class="skill-tag">ESXi</span>
+          <span class="skill-tag">VirtualBox</span>
+          <span class="skill-tag">Proxmox VE</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🛠️</div>
+        <div class="skill-category">ITSM Tools</div>
+        <div class="skill-tags">
+          <span class="skill-tag">ManageEngine</span>
+          <span class="skill-tag">Jira</span>
+          <span class="skill-tag">Spiceworks</span>
+          <span class="skill-tag">Snipe-IT</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">💾</div>
+        <div class="skill-category">Backup & DR</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Acronis True Image</span>
+          <span class="skill-tag">Disaster Recovery</span>
+          <span class="skill-tag">Business Continuity</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🖱️</div>
+        <div class="skill-category">Remote Support</div>
+        <div class="skill-tags">
+          <span class="skill-tag">TeamViewer</span>
+          <span class="skill-tag">UltraViewer</span>
+          <span class="skill-tag">Multi-site Management</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">⚙️</div>
+        <div class="skill-category">Hardware</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Desktop / Laptop</span>
+          <span class="skill-tag">UPS</span>
+          <span class="skill-tag">CCTV DVR/NVR</span>
+          <span class="skill-tag">Biometrics</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-tag">Career path</div>
+    <h2 class="section-title">Work<br/>Experience</h2>
+    <div class="timeline">
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-company">Ocube Services Pvt. Ltd.</div>
+          <div class="job-period">Feb 2026 – Present</div>
+        </div>
+        <div class="job-role">IT Team Manager</div>
+        <ul class="job-bullets">
+          <li>Lead a team of 6 IT members across India and Dubai on multiple remote sites.</li>
+          <li>Administer Microsoft 365 services including Exchange Online, Teams, and SharePoint.</li>
+          <li>Manage and monitor Sophos XGS 126, XG118, PFSense, and FortiGate firewalls.</li>
+          <li>Administer Windows Server 2022/2025 and CentOS production servers.</li>
+          <li>Manage Seqrite antivirus endpoint protection across all endpoints.</li>
+          <li>Use ManageEngine Service Desk and Jira for ticket management and daily operations.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-company">Creditron Services Pvt. Ltd.</div>
+          <div class="job-period">Mar 2025 – Present</div>
+        </div>
+        <div class="job-role">System Administrator</div>
+        <ul class="job-bullets">
+          <li>Managed Sophos XGS 126, XG118, PFSense, and FortiGate firewall environments.</li>
+          <li>Administered Windows Server 2012 R2, 2019, and CentOS servers.</li>
+          <li>Led a team of 4 IT members and managed multi-location IT operations.</li>
+          <li>Oversaw IT process transitions and established quality standards for projects.</li>
+          <li>Monitored and audited all IT infrastructure activities; maintained SLA compliance.</li>
+          <li>Managed vendor communication and prepared project completion schedules.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-company">Landmark Insurance Broker Pvt. Ltd.</div>
+          <div class="job-period">Nov 2021 – Mar 2025</div>
+        </div>
+        <div class="job-role">IT Executive</div>
+        <ul class="job-bullets">
+          <li>Administered Windows Server 2012 R2 with Active Directory, Group Policy, DHCP, and DNS.</li>
+          <li>Managed mail server with MailStore archiving; configured Office 365 and Outlook clients.</li>
+          <li>Planned, designed, and implemented IT networks and CCTV for new power plant sites.</li>
+          <li>Administered ESSL Biometric Attendance Devices and HP Service Desk helpdesk.</li>
+          <li>Managed Acronis True Image backup and Business Continuity/Disaster Recovery planning.</li>
+          <li>Provided remote support via TeamViewer and UltraViewer across multiple locations.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-company">Teleone Consumer Products Pvt. Ltd.</div>
+          <div class="job-period">Dec 2019 – Nov 2021</div>
+        </div>
+        <div class="job-role">Hardware & Network Engineer</div>
+        <ul class="job-bullets">
+          <li>Ensured network quality for business applications, VoIP, video conferencing, and CCTV.</li>
+          <li>Installed and maintained IT infrastructure, Dialer Server, and SIP server (GoAutoDial).</li>
+          <li>Managed IIS web server and multi-location network support.</li>
+          <li>Ensured Confidentiality, Integrity, and Availability (CIA triad) of business information.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifications">
+    <div class="section-tag">Credentials</div>
+    <h2 class="section-title">Professional<br/>Certifications</h2>
+    <div class="certs-grid">
+      <div class="cert-card">
+        <div class="cert-badge">🏅</div>
+        <div>
+          <div class="cert-name">AWS Certified Cloud Practitioner Essentials</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">🏅</div>
+        <div>
+          <div class="cert-name">MS-900: Microsoft 365 Fundamentals</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">🏅</div>
+        <div>
+          <div class="cert-name">MS-102: Microsoft 365 Tenant Administrator</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">🏅</div>
+        <div>
+          <div class="cert-name">Azure Fundamentals (AZ-900) – Microsoft</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">🏅</div>
+        <div>
+          <div class="cert-name">ITIL 4 Foundation – LinkedIn & CompTIA</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">🏅</div>
+        <div>
+          <div class="cert-name">Penetration Testing – Security Blue Team</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">🏅</div>
+        <div>
+          <div class="cert-name">AWS Connect Instance Fundamentals</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">🏅</div>
+        <div>
+          <div class="cert-name">CCNA & AWS – Jetking Institute</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">🏅</div>
+        <div>
+          <div class="cert-name">Hardware & Networking – Cisco</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">🏅</div>
+        <div>
+          <div class="cert-name">Network Support & Security – Cisco</div>
+        </div>
+      </div>
+      <div class="cert-card" style="border-color: rgba(255,107,107,0.3);">
+        <div class="cert-badge" style="background: rgba(255,107,107,0.1);">🎯</div>
+        <div>
+          <div class="cert-name">Advanced Cybersecurity & Ethical Hacking – Cisco</div>
+          <div class="cert-in-progress">⏳ In Progress</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-tag">Academic background</div>
+    <h2 class="section-title">Education</h2>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div class="edu-degree">Bachelor of Computer Applications (BCA)</div>
+        <div class="edu-school">IGNOU – Indira Gandhi National Open University</div>
+        <div class="edu-status">📚 Currently Pursuing</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">12th Standard – CBSE Board</div>
+        <div class="edu-school">Central Board of Secondary Education</div>
+        <div class="edu-status">✅ Completed</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">10th Standard – CBSE Board</div>
+        <div class="edu-school">Central Board of Secondary Education</div>
+        <div class="edu-status">✅ Completed</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-tag">Let's connect</div>
+    <h2 class="section-title">Get In<br/>Touch</h2>
+    <div class="contact-layout">
+      <div>
+        <div class="contact-info-items">
+          <a class="contact-item" href="tel:+918799743127">
+            <div class="contact-item-icon">📞</div>
+            <div>
+              <div class="contact-item-label">Phone</div>
+              <div class="contact-item-value">+91 8799743127</div>
+            </div>
+          </a>
+          <a class="contact-item" href="mailto:Ravikkharwar586@outlook.com">
+            <div class="contact-item-icon">✉️</div>
+            <div>
+              <div class="contact-item-label">Email</div>
+              <div class="contact-item-value">Ravikkharwar586@outlook.com</div>
+            </div>
+          </a>
+          <a class="contact-item" href="https://linkedin.com/in/ravi-kumar-4263133b2" target="_blank">
+            <div class="contact-item-icon">🔗</div>
+            <div>
+              <div class="contact-item-label">LinkedIn</div>
+              <div class="contact-item-value">linkedin.com/in/ravi-kumar-4263133b2</div>
+            </div>
+          </a>
+          <div class="contact-item" style="cursor: default;">
+            <div class="contact-item-icon">📍</div>
+            <div>
+              <div class="contact-item-label">Location</div>
+              <div class="contact-item-value">New Delhi, India</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-right">
+        <p class="contact-tagline">Open to new <span>opportunities</span> and collaborations.</p>
+        <p class="contact-bio">
+          I'm a hands-on IT leader who thrives at the intersection of technical depth and team management. Whether you need someone to build resilient infrastructure, lead multi-site operations, or bring a cloud-first mindset to your organization — let's talk.
+        </p>
+        <div class="personal-chips">
+          <span class="chip">🗓️ DOB: 4 Aug 2000</span>
+          <span class="chip">👤 Male</span>
+          <span class="chip">💬 English & Hindi</span>
+          <span class="chip">✈️ Open to Relocation</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-text">© 2025 <span>Ravi Kumar</span> — IT Team Manager & Cloud Operations</div>
+    <div class="footer-text">Built with <span>♥</span> · New Delhi, India</div>
+  </footer>
+
+  <script>
+    // Scroll progress bar
+    window.addEventListener('scroll', () => {
+      const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+      document.getElementById('scrollBar').style.width = scrolled + '%';
+    });
+
+    // Intersection Observer for reveal animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.skill-card, .job, .cert-card, .edu-card, .contact-item').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease, border-color 0.3s';
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>
